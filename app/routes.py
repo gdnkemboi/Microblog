@@ -147,7 +147,7 @@ def unfollow(username):
 
 @app.route('/reset_password_request', methods=['GET', 'POST'])
 def reset_password_request():
-    if current_user.is_authenticated():
+    if current_user.is_authenticated:
         return redirect(url_for('index'))
     form = ResetPasswordRequestForm()
     if form.validate_on_submit():
@@ -156,9 +156,9 @@ def reset_password_request():
             send_password_reset_email(user)
             flash('Check your email for the instructions to reset your password')
             return redirect(url_for('login'))
-        return render_template('reset_password_request.html', title='Reset Password', form=form)
+    return render_template('reset_password_request.html', title='Reset Password', form=form)
 
-@app.routes('/reset_password/<token>', methods=['GET', 'POST'])
+@app.route('/reset_password/<token>', methods=['GET', 'POST'])
 def reset_password(token):
     if current_user.is_authenticated:
         return redirect(url_for('index'))
@@ -169,6 +169,6 @@ def reset_password(token):
     if form.validate_on_submit():
         user.set_password(form.password.data)
         db.session.commit()
-        flash('Your password has benn reset.')
+        flash('Your password has been reset.')
         return redirect(url_for('login'))
     return render_template('reset_password.html', form=form)
