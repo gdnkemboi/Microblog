@@ -8,6 +8,7 @@ from logging.handlers import SMTPHandler, RotatingFileHandler
 import os
 from flask_mail import Mail
 from flask_bootstrap import Bootstrap
+from flask_moment import Moment
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -27,7 +28,7 @@ if not app.debug:
         mail_handler = SMTPHandler(
             mailhost = (app.config['MAIL_SERVER'], app.config['MAIL_PORT']), 
             fromaddr = 'no-reply@' + app.config['MAIL_SERVER'], 
-            toaddrs = appp.config['ADMINS'], 
+            toaddrs = app.config['ADMINS'], 
             subject = 'Microblog Failure', credentials=auth, secure=secure)
         mail_handler.setLevel(logging.ERROR)
         app.logger.addHandler(mail_handler)
@@ -42,5 +43,6 @@ if not app.debug:
         app.logger.setLevel(logging.INFO)
         app.logger.info('Microblog startup')
 bootstrap = Bootstrap(app)
+moment = Moment(app)
 
 from app import routes, models, errors
