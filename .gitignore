@@ -1,6 +1,6 @@
 __pycache__/
 *.db
-*.flaskenv
+*.env
 logs/
 *.pot
 *.mo
