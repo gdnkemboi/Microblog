@@ -1,2 +1,2 @@
 # Microblog
-Simple blog web application .
+Simple Twitter like microblogging web application implemented with Flask.
