@@ -1,12 +1,11 @@
 from flask import render_template, redirect, flash, url_for, request, g, jsonify, current_app
 from app import db
 from app.main.forms import EditProfileForm, EmptyForm, PostForm
-from flask_login import current_user, login_user, login_required, logout_user
+from flask_login import current_user, login_required
 from app.models import User, Post
-from werkzeug.urls import url_parse
 from datetime import datetime
 from flask_babel import _, get_locale
-from landdetect import detect, LangDetectException
+from langdetect import detect, LangDetectException
 from app.translate import translate
 from app.main import bp
 
@@ -38,7 +37,7 @@ def index():
         if posts.has_next else None
     prev_url = url_for('main.index', page=posts.prev_num) \
         if posts.has_prev else None
-    return render_template('index.html', title = 'Home Page', form=form, posts=posts.items, next_url=next_url, prev_url=prev_url)
+    return render_template('index.html', title = _('Home Page'), form=form, posts=posts.items, next_url=next_url, prev_url=prev_url)
 
 @bp.route('/explore')
 @login_required
@@ -49,12 +48,7 @@ def explore():
         if posts.has_next else None
     prev_url = url_for('main.explore', page=posts.prev_num) \
         if posts.has_prev else None
-    return render_template('index.html', title='Explore', posts=posts.items, next_url=next_url, prev_url=prev_url)
-
-@bp.route('/logout')
-def logout():
-    logout_user()
-    return redirect(url_for('main.index'))
+    return render_template('index.html', title=_('Explore'), posts=posts.items, next_url=next_url, prev_url=prev_url)
 
 @bp.route('/user/<username>')
 @login_required
@@ -82,7 +76,7 @@ def edit_profile():
     elif request.method == 'GET':
         form.username.data = current_user.username
         form.about_me.data = current_user.about_me
-    return render_template('edit_profile.html', title='Edit Profile', form=form)
+    return render_template('edit_profile.html', title=_('Edit Profile'), form=form)
 
 @bp.route('/follow/<username>', methods=['POST'])
 @login_required
@@ -126,5 +120,5 @@ def unfollow(username):
 @login_required
 def translate_text():
     return jsonify({
-        'text': translate(request.form['text'], request['source_lang'], request.form['dest_lang'])
+        'text': translate(request.form['text'], request.form['source_lang'], request.form['dest_lang'])
     })

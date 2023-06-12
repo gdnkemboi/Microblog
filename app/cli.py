@@ -18,7 +18,7 @@ def register(app):
             raise RuntimeError('init command failed')
         os.remove('messages.pot')
 
-    @traslate.command()
+    @translate.command()
     def update():
         """Update all languages"""
         if os.system('pybabel extract -F babel.cfg -k _l -o messages.pot .'):

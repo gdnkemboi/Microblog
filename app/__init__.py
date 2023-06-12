@@ -12,10 +12,11 @@ from flask_moment import Moment
 from flask_babel import Babel, lazy_gettext as _l
 
 def get_locale():
-    user = getattr(g, 'user', None)
-    if user is not None:
-        return user.locale
-    return request.accept_languages.best_match(current_app.config['LANGUAGES'])
+    #user = getattr(g, 'user', None)
+    #if user is not None:
+        #return user.locale
+    #return request.accept_languages.best_match(current_app.config['LANGUAGES'])
+    return 'fr'
 
 db = SQLAlchemy()
 migrate = Migrate()
@@ -41,8 +42,10 @@ def create_app(config_class=Config):
 
     from app.errors import bp as errors_bp
     app.register_blueprint(errors_bp)
+
     from app.auth import bp as auth_bp
     app.register_blueprint(auth_bp, url_prefix='/auth')
+    
     from app.main import bp as main_bp
     app.register_blueprint(main_bp)
 
