@@ -18,3 +18,6 @@ class Config(object):
     POSTS_PER_PAGE = 25
     LANGUAGES = ['en', 'fr', 'de']
     TRANSLATOR_KEY = os.environ.get('TRANSLATOR_KEY')
+    ELASTICSEARCH_URL = os.environ.get('ELASTICSEARCH_URL')
+    ES_USERNAME = os.environ.get('ES_USERNAME')
+    ES_PASSWORD = os.environ.get('ES_PASSWORD')
